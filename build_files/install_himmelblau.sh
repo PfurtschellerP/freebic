@@ -24,4 +24,3 @@ authselect select custom/himmelblau
 
 echo "Enable Himmelblau services"
 sudo systemctl enable himmelblaud himmelblaud-tasks
-sudo systemctl restart himmelblaud himmelblaud-tasks

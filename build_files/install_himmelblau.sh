@@ -11,7 +11,7 @@ aad-tool configure-pam
 
 
 echo "Configuring Authselect for Himmelblau"
-authselect create-profile himmelblau --base-on current
+authselect create-profile himmelblau --base-on local
 authselect select himmelblau
 
 echo "Modify nsswitch.conf to use himmelblau for passwd and group"

@@ -27,3 +27,9 @@ sudo systemctl enable himmelblaud himmelblaud-tasks
 
 echo "Configuring PAM for Himmelblau"
 aad-tool configure-pam --really
+
+dnf install -y gdm
+
+echo "Switch from plasmalogin to gdm"
+systemctl disable plasmalogin.service
+systemctl enable gdm.service --force

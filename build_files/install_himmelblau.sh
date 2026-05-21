@@ -13,6 +13,7 @@ echo "Configuring Authselect for Himmelblau"
 authselect create-profile himmelblau --base-on local
 authselect select himmelblau
 
+
 echo "Modify nsswitch.conf to use himmelblau for passwd and group"
 sed -i 's/^passwd:.*/& himmelblau/' /etc/authselect/custom/himmelblau/nsswitch.conf
 sed -i 's/^group:.*/& himmelblau/' /etc/authselect/custom/himmelblau/nsswitch.conf

@@ -11,6 +11,7 @@ dnf install -y selinux-policy-devel himmelblau pam-himmelblau nss-himmelblau him
 
 install_himmelblau_selinux_module() {
 	local selinux_src_dir=/ctx/selinux
+	local selinux_work_dir=/tmp/himmelblaud-selinux-src
 
 	if [[ ! -d "$selinux_src_dir" ]]; then
 		echo "SELinux source tree not found at $selinux_src_dir; skipping local module build"
@@ -27,11 +28,15 @@ install_himmelblau_selinux_module() {
 		return 0
 	fi
 
+	rm -rf "$selinux_work_dir"
+	mkdir -p "$selinux_work_dir"
+	cp -a "$selinux_src_dir"/. "$selinux_work_dir"/
+
 	echo "Building local himmelblaud SELinux module"
-	make -f /usr/share/selinux/devel/Makefile -C "$selinux_src_dir" himmelblaud.pp
+	make -f /usr/share/selinux/devel/Makefile -C "$selinux_work_dir" himmelblaud.pp
 
 	echo "Installing local himmelblaud SELinux module"
-	semodule -i "$selinux_src_dir/himmelblaud.pp"
+	semodule -i "$selinux_work_dir/himmelblaud.pp"
 
 	echo "Relabeling Himmelblau paths"
 	restorecon -RFv \

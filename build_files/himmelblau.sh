@@ -4,55 +4,9 @@ set -ouex pipefail
 
 echo "Installing Himmelblau packages and configuring PAM"
 rpm --import https://packages.himmelblau-idm.org/himmelblau.asc
-dnf config-manager addrepo --from-repofile=https://packages.himmelblau-idm.org/stable/latest/rpm/fedora43/himmelblau.repo
+sudo dnf config-manager --add-repo=https://packages.himmelblau-idm.org/nightly/latest/rpm/fedora44
 dnf makecache
-dnf install -y selinux-policy-devel himmelblau pam-himmelblau nss-himmelblau himmelblau-sshd-config himmelblau-qr-greeter himmelblau-sso o365 himmelblau-selinux
-
-
-install_himmelblau_selinux_module() {
-	local selinux_src_dir=/ctx/selinux
-	local selinux_work_dir=/tmp/himmelblaud-selinux-src
-
-	if [[ ! -d "$selinux_src_dir" ]]; then
-		echo "SELinux source tree not found at $selinux_src_dir; skipping local module build"
-		return 0
-	fi
-
-	if [[ ! -f /usr/share/selinux/devel/Makefile ]]; then
-		echo "SELinux development Makefile not found; skipping local module build"
-		return 0
-	fi
-
-	if ! command -v semodule >/dev/null 2>&1; then
-		echo "semodule not available; skipping local module build"
-		return 0
-	fi
-
-	rm -rf "$selinux_work_dir"
-	mkdir -p "$selinux_work_dir"
-	cp -a "$selinux_src_dir"/. "$selinux_work_dir"/
-
-	echo "Building local himmelblaud SELinux module"
-	make -f /usr/share/selinux/devel/Makefile -C "$selinux_work_dir" himmelblaud.pp
-
-	echo "Installing local himmelblaud SELinux module"
-	semodule -i "$selinux_work_dir/himmelblaud.pp"
-
-	echo "Relabeling Himmelblau paths"
-	restorecon -RFv \
-		/usr/sbin/himmelblaud \
-		/usr/sbin/himmelblaud_tasks \
-		/etc/himmelblau \
-		/run/himmelblaud \
-		/var/run/himmelblaud \
-		/var/cache/private/himmelblaud \
-		/var/cache/himmelblaud \
-		/var/cache/nss-himmelblau \
-		/var/lib/private/himmelblaud \
-		/var/lib/himmelblaud 2>/dev/null || true
-}
-
-install_himmelblau_selinux_module
+dnf install -y himmelblau pam-himmelblau nss-himmelblau himmelblau-sshd-config himmelblau-qr-greeter himmelblau-sso o365 himmelblau-selinux
 
 
 echo "Configuring Authselect for Himmelblau"

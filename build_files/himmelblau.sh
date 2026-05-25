@@ -4,7 +4,7 @@ set -ouex pipefail
 
 echo "Installing Himmelblau packages and configuring PAM"
 rpm --import https://packages.himmelblau-idm.org/himmelblau.asc
-sudo dnf config-manager --add-repo=https://packages.himmelblau-idm.org/nightly/latest/rpm/fedora44
+dnf config-manager addrepo --from-repofile=https://packages.himmelblau-idm.org/nightly/latest/rpm/fedora44/himmelblau.repo
 dnf makecache
 dnf install -y himmelblau pam-himmelblau nss-himmelblau himmelblau-sshd-config himmelblau-qr-greeter himmelblau-sso o365 himmelblau-selinux
 

@@ -40,9 +40,6 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/microsoft.sh && \
     /ctx/cleanup.sh
 
-# Set os to permissive for now until himmelblau-selinux package works well on Fedora 44
-RUN rpm-ostree kargs --append=selinux=0
-
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint

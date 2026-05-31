@@ -6,7 +6,7 @@ echo "Installing Himmelblau packages and configuring PAM"
 rpm --import https://packages.himmelblau-idm.org/himmelblau.asc
 dnf config-manager addrepo --from-repofile=https://packages.himmelblau-idm.org/nightly/latest/rpm/fedora44/himmelblau.repo
 dnf makecache
-dnf install -y himmelblau pam-himmelblau nss-himmelblau himmelblau-sshd-config himmelblau-qr-greeter himmelblau-sso o365 himmelblau-selinux
+dnf install -y himmelblau pam-himmelblau nss-himmelblau himmelblau-sshd-config himmelblau-qr-greeter himmelblau-sso himmelblau-selinux
 
 echo "Configuring Authselect for Himmelblau"
 authselect create-profile himmelblau --base-on local
@@ -25,9 +25,8 @@ sudo systemctl enable himmelblaud himmelblaud-tasks
 echo "Configuring PAM for Himmelblau"
 aad-tool configure-pam --really
 
-dnf install -y gdm
-
 # https://github.com/himmelblau-idm/himmelblau/issues/1042
-echo "Switch from plasmalogin to gdm"
-systemctl disable plasmalogin.service
-systemctl enable gdm.service --force
+# echo "Switch from plasmalogin to gdm"
+# dnf install -y gdm
+# systemctl disable plasmalogin.service
+# systemctl enable gdm.service --force

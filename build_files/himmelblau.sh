@@ -28,6 +28,8 @@ aad-tool configure-pam --really
 # https://github.com/himmelblau-idm/himmelblau/issues/1042
 echo "Switch from plasmalogin to lightdm"
 dnf install -y lightdm
-# systemctl disable plasmalogin.service
-dnf remove -y plasma-login-manager
+
+systemctl disable plasmalogin.service
+systemctl disable plasma-setup.service
+
 systemctl enable lightdm.service --force

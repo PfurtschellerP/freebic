@@ -3,7 +3,8 @@ FROM scratch AS ctx
 COPY build_files /
 
 # Base Image
-FROM ghcr.io/ublue-os/aurora:latest
+FROM quay.io/fedora-ostree-desktops/silverblue:latest
+# FROM ghcr.io/ublue-os/aurora:latest
 
 # quay.io/fedora-ostree-desktops/kinoite:latest
 

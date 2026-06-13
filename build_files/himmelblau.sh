@@ -26,7 +26,7 @@ echo "Configuring PAM for Himmelblau"
 aad-tool configure-pam --really
 
 # https://github.com/himmelblau-idm/himmelblau/issues/1042
-echo "Switch from plasmalogin to gdm"
-dnf install -y gdm
-systemctl disable plasmalogin.service
-systemctl enable gdm.service --force
+# echo "Switch from plasmalogin to gdm"
+# dnf install -y gdm
+# systemctl disable plasmalogin.service
+# systemctl enable gdm.service --force

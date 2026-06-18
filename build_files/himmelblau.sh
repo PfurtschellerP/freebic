@@ -13,18 +13,4 @@ sudo systemctl enable himmelblaud himmelblaud-tasks
 
 echo "Configuring PAM for Himmelblau"
 aad-tool configure-pam --really
-
-echo "check if authselect profile is set to himmelblau already"
-authselect current
-
-# should be done by the aad-tool
-# authselect create-profile himmelblau --base-on local
-# authselect select himmelblau
-echo "Set authselect profile to himmelblau"
-authselect select himmelblau
-
-# https://github.com/himmelblau-idm/himmelblau/issues/1042
-# echo "Switch from plasmalogin to gdm"
-# dnf install -y gdm
-# systemctl disable plasmalogin.service
-# systemctl enable gdm.service --force
+authselect current # check which profile is currently active

@@ -12,4 +12,4 @@ echo "Enable Himmelblau services"
 sudo systemctl enable himmelblaud himmelblaud-tasks
 
 echo "Configuring PAM for Himmelblau"
-aad-tool configure-pam
+# aad-tool configure-pam

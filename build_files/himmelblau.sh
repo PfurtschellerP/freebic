@@ -9,7 +9,7 @@ dnf makecache
 dnf install -y himmelblau pam-himmelblau nss-himmelblau himmelblau-sshd-config himmelblau-qr-greeter himmelblau-sso himmelblau-selinux
 
 echo "Enable Himmelblau services"
-sudo systemctl enable himmelblaud himmelblaud-tasks
+# sudo systemctl enable himmelblaud himmelblaud-tasks
 
 echo "Configuring PAM for Himmelblau"
 # aad-tool configure-pam

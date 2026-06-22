@@ -12,5 +12,4 @@ echo "Enable Himmelblau services"
 sudo systemctl enable himmelblaud himmelblaud-tasks
 
 echo "Configuring PAM for Himmelblau"
-aad-tool configure-pam --really
-authselect current # check which profile is currently active
+aad-tool configure-pam

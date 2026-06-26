@@ -3,11 +3,15 @@
 set -ouex pipefail
 
 echo "Installing Himmelblau packages and configuring PAM"
-# dnf makecache
-dnf install -y himmelblau # pam-himmelblau nss-himmelblau himmelblau-sso himmelblau-selinux
+dnf makecache
+dnf install -y himmelblau pam-himmelblau nss-himmelblau himmelblau-sso himmelblau-selinux
 
-# echo "Configuring PAM for Himmelblau"
-# aad-tool configure-pam
+echo "Configuring PAM for Himmelblau"
+aad-tool configure-pam
 
-# echo "Enable Himmelblau services"
-# systemctl enable himmelblaud himmelblaud-tasks
+echo "Enable Himmelblau services"
+systemctl enable himmelblaud himmelblaud-tasks
+
+echo "Selecting Himmelblau authselect profile"
+authselect select vendor/himmelblau
+

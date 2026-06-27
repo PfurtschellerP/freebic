@@ -2,6 +2,9 @@
 
 set -ouex pipefail
 
+echo "Install Dependencies for Himmelblau in immutable images"
+dnf install -y tpm2-tss
+
 echo "Installing Himmelblau packages and configuring PAM"
 dnf makecache
 dnf install -y himmelblau pam-himmelblau nss-himmelblau himmelblau-sso himmelblau-selinux

@@ -14,5 +14,5 @@ systemctl enable himmelblaud himmelblaud-tasks
 
 echo "Selecting Himmelblau authselect profile"
 authselect list
-authselect select vendor/himmelblau
+authselect select himmelblau
 

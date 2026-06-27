@@ -13,5 +13,6 @@ echo "Enable Himmelblau services"
 systemctl enable himmelblaud himmelblaud-tasks
 
 echo "Selecting Himmelblau authselect profile"
+authselect list-profiles
 authselect select vendor/himmelblau
 

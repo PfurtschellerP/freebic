@@ -2,8 +2,8 @@
 
 set -ouex pipefail
 
-echo "Install tpm2-tss as the tss group is a requirement for the himmelblau systemd service"
-dnf install tpm2-tss
+echo "Add the tss group for the Himmelblau packages"
+groupadd --system tss
 
 echo "Installing Himmelblau packages and configuring PAM"
 dnf makecache

@@ -2,9 +2,6 @@
 
 set -ouex pipefail
 
-echo "Add the tss group for the Himmelblau packages"
-groupadd --system tss
-
 echo "Installing Himmelblau packages and configuring PAM"
 dnf makecache
 dnf install -y himmelblau pam-himmelblau nss-himmelblau himmelblau-sso himmelblau-selinux

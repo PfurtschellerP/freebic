@@ -10,7 +10,7 @@ echo "Configuring PAM for Himmelblau"
 aad-tool configure-pam
 
 echo "Enable Himmelblau services"
-systemctl enable himmelblaud himmelblaud-tasks
+systemctl enable himmelblaud himmelblaud-tasks himmelblau-hsm-pin-init
 
 echo "Selecting Himmelblau authselect profile"
 authselect list

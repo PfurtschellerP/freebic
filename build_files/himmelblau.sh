@@ -31,7 +31,6 @@ if command -v selinuxenabled >/dev/null 2>&1 && selinuxenabled; then
   if [ ! -f "$SELINUX_MAKEFILE" ]; then
     echo "Warning: SELinux development Makefile not found at $SELINUX_MAKEFILE"
     echo "Please install selinux-policy-devel and re-run this script"
-    exit 0
   fi
  
   # Compile the policy module from source

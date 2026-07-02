@@ -25,7 +25,9 @@ echo "Ensure selinux policy module is compiled and installed"
  
 SELINUX_SRC_DIR="/usr/share/selinux/packages/himmelblaud"
 SELINUX_MAKEFILE="/usr/share/selinux/devel/Makefile"
- 
+
+getenforce 
+
 if command -v selinuxenabled >/dev/null 2>&1 && selinuxenabled; then
   # Check if SELinux development tools are available
   if [ ! -f "$SELINUX_MAKEFILE" ]; then

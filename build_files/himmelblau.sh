@@ -66,10 +66,3 @@ aad-tool configure-pam
 echo "Enable Himmelblau services"
 systemctl enable himmelblaud himmelblaud-tasks himmelblau-hsm-pin-init
 
-echo "Selecting Himmelblau authselect profile"
-authselect list
-authselect select himmelblau
-
-authselect enable-feature with-altfiles
-
-sudo authselect apply-changes

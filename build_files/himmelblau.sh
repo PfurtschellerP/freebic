@@ -6,21 +6,6 @@ echo "Installing Himmelblau packages and configuring PAM"
 dnf makecache
 dnf install -y himmelblau pam-himmelblau nss-himmelblau himmelblau-sso himmelblau-selinux policycoreutils selinux-policy-devel checkpolicy m4 make
 
-echo "Configuring PAM for Himmelblau"
-aad-tool configure-pam
-
-echo "Enable Himmelblau services"
-systemctl enable himmelblaud himmelblaud-tasks himmelblau-hsm-pin-init
-
-echo "Selecting Himmelblau authselect profile"
-authselect list
-authselect select himmelblau
-
-authselect enable-feature with-altfiles
-
-sudo authselect apply-changes
-
-
 # Could be removed, once solved https://github.com/himmelblau-idm/himmelblau/issues/1503
 SELINUX_SRC_DIR="/usr/share/selinux/packages/himmelblaud"
 SELINUX_MAKEFILE="/usr/share/selinux/devel/Makefile"
@@ -45,17 +30,17 @@ if [ "${SELINUXTYPE}" = "${_policytype}" ]; then
 				rmdir tmp 2>/dev/null || :
 
 				# Relabel installed binaries
-				restorecon -Fv /usr/sbin/himmelblaud /usr/sbin/himmelblaud_tasks 2>/dev/null || :
+				# restorecon -Fv /usr/sbin/himmelblaud /usr/sbin/himmelblaud_tasks 2>/dev/null || :
 
 				# Relabel existing dirs (may not exist on fresh install)
-				[ -d /etc/himmelblau ]                && restorecon -RFv /etc/himmelblau || :
-				[ -d /run/himmelblaud ]               && restorecon -RFv /run/himmelblaud || :
-				[ -d /var/run/himmelblaud ]           && restorecon -RFv /var/run/himmelblaud || :
-				[ -d /var/cache/private/himmelblaud ] && restorecon -RFv /var/cache/private/himmelblaud || :
-				[ -d /var/cache/himmelblaud ]         && restorecon -RFv /var/cache/himmelblaud || :
-				[ -d /var/cache/nss-himmelblau ]      && restorecon -RFv /var/cache/nss-himmelblau || :
-				[ -d /var/lib/private/himmelblaud ]   && restorecon -RFv /var/lib/private/himmelblaud || :
-				[ -d /var/lib/himmelblaud ]           && restorecon -RFv /var/lib/himmelblaud || :
+				# [ -d /etc/himmelblau ]                && restorecon -RFv /etc/himmelblau || :
+				# [ -d /run/himmelblaud ]               && restorecon -RFv /run/himmelblaud || :
+				# [ -d /var/run/himmelblaud ]           && restorecon -RFv /var/run/himmelblaud || :
+				# [ -d /var/cache/private/himmelblaud ] && restorecon -RFv /var/cache/private/himmelblaud || :
+				# [ -d /var/cache/himmelblaud ]         && restorecon -RFv /var/cache/himmelblaud || :
+				# [ -d /var/cache/nss-himmelblau ]      && restorecon -RFv /var/cache/nss-himmelblau || :
+				# [ -d /var/lib/private/himmelblaud ]   && restorecon -RFv /var/lib/private/himmelblaud || :
+				# [ -d /var/lib/himmelblaud ]           && restorecon -RFv /var/lib/himmelblaud || :
 
 				echo "SELinux policy module installed successfully"
 			else
@@ -75,5 +60,16 @@ else
 	exit 1
 fi
 
+echo "Configuring PAM for Himmelblau"
+aad-tool configure-pam
 
+echo "Enable Himmelblau services"
+systemctl enable himmelblaud himmelblaud-tasks himmelblau-hsm-pin-init
 
+echo "Selecting Himmelblau authselect profile"
+authselect list
+authselect select himmelblau
+
+authselect enable-feature with-altfiles
+
+sudo authselect apply-changes

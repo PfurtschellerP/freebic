@@ -66,3 +66,5 @@ aad-tool configure-pam
 echo "Enable Himmelblau services"
 systemctl enable himmelblaud himmelblaud-tasks himmelblau-hsm-pin-init
 
+echo "Do any configuration that expects a live system"
+systemctl enable first-boot.service

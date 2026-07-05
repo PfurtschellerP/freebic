@@ -1,0 +1,10 @@
+[Unit]
+Description=Run clean up commands that must run in a live system.
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/first-boot
+User=root
+
+[Install]
+WantedBy=multi-user.target

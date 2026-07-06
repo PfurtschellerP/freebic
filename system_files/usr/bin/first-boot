@@ -15,20 +15,7 @@ authselect apply-changes
 #
 # SELinux relabeling (usually run at rpm install time, but for the immutable image, we need to do it here)
 #
-
-# Relabel installed binaries
-restorecon -Fv /usr/sbin/himmelblaud /usr/sbin/himmelblaud_tasks 2>/dev/null || :
-
-# Relabel existing dirs (may not exist on fresh install)
-[ -d /etc/himmelblau ]                && restorecon -RFv /etc/himmelblau || :
-[ -d /run/himmelblaud ]               && restorecon -RFv /run/himmelblaud || :
-[ -d /var/run/himmelblaud ]           && restorecon -RFv /var/run/himmelblaud || :
-[ -d /var/cache/private/himmelblaud ] && restorecon -RFv /var/cache/private/himmelblaud || :
-[ -d /var/cache/himmelblaud ]         && restorecon -RFv /var/cache/himmelblaud || :
-[ -d /var/cache/nss-himmelblau ]      && restorecon -RFv /var/cache/nss-himmelblau || :
-[ -d /var/lib/private/himmelblaud ]   && restorecon -RFv /var/lib/private/himmelblaud || :
-[ -d /var/lib/himmelblaud ]           && restorecon -RFv /var/lib/himmelblaud || :
-
+restorecon -RFv /var /usr /etc /run
 
 systemctl daemon-reload >/dev/null 2>&1 || :
 systemctl try-restart himmelblaud.service himmelblaud-tasks.service >/dev/null 2>&1 || :

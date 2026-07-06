@@ -23,7 +23,7 @@ rm -f himmelblaud.pp tmp/*.* 2>/dev/null || :
 rm -f himmelblaud_additional.pp tmp/*.* 2>/dev/null || :
 rmdir tmp 2>/dev/null || :
 
-Relabel installed binaries
+# Relabel installed binaries
 restorecon -Fv /usr/sbin/himmelblaud /usr/sbin/himmelblaud_tasks 2>/dev/null || :
 
 # Relabel existing dirs (may not exist on fresh install)

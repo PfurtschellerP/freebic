@@ -6,7 +6,7 @@ Before=sysinit.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/first-boot
+ExecStart=/usr/bin/himmelblau-on-boot
 User=root
 
 [Install]

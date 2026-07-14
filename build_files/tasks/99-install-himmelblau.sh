@@ -2,25 +2,21 @@
 
 set -ouex pipefail
 
-echo "Installing Himmelblau packages and configuring PAM"
-dnf makecache
-dnf install -y himmelblau pam-himmelblau nss-himmelblau himmelblau-sso himmelblau-selinux policycoreutils selinux-policy-devel checkpolicy m4 make
+# install himmelblau packages
+dnf install -y himmelblau pam-himmelblau nss-himmelblau himmelblau-sso himmelblau-selinux
 
-# Could be removed, once solved https://github.com/himmelblau-idm/himmelblau/issues/1503
+# Could be removed, once solved https://github.com/himmelblau-idm/himmelblau/issues/1503 (milestone 4.0 - 2026-08-31)
 SELINUX_SRC_DIR="/usr/share/selinux/packages/himmelblaud"
 SELINUX_MAKEFILE="/usr/share/selinux/devel/Makefile"
 
 echo "Compiling SELinux policy modules..."
 cd "$SELINUX_SRC_DIR"
 make -f "$SELINUX_MAKEFILE" himmelblaud.pp
-make -f "$SELINUX_MAKEFILE" himmelblaud_additional.pp
 echo "Installing SELinux policy modules..."
 semodule -i himmelblaud.pp
-semodule -i himmelblaud_additional.pp
 
 # Clean up compiled files (keep source for potential recompilation)
 rm -f himmelblaud.pp tmp/*.* 2>/dev/null || :
-rm -f himmelblaud_additional.pp tmp/*.* 2>/dev/null || :
 rmdir tmp 2>/dev/null || :
 
 # Relabel installed binaries
@@ -37,11 +33,17 @@ restorecon -Fv /usr/sbin/himmelblaud /usr/sbin/himmelblaud_tasks 2>/dev/null || 
 [ -d /var/lib/himmelblaud ]           && restorecon -RFv /var/lib/himmelblaud || :
 
 
-echo "Configuring PAM for Himmelblau"
+# Configuring PAM for Himmelblau
 aad-tool configure-pam
 
-echo "Enable Himmelblau services"
+# Enable Himmelblau services
 systemctl enable himmelblaud himmelblaud-tasks himmelblau-hsm-pin-init
 
-echo "Do any configuration that expects a live system"
-systemctl enable first-boot.service
+# Authselect profile setup to keep systemd-sysusers functional in the image build process
+authselect list
+authselect select himmelblau with-altfiles --force
+authselect apply-changes
+
+# Do any configuration that expects a live system
+systemctl enable himmelblau-on-boot.service
+

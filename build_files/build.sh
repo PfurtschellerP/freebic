@@ -2,23 +2,36 @@
 
 set -ouex pipefail
 
-### Install packages
+# Copy the contents of system_files/ of the git repo to /
+cp -avf "/ctx/system_files"/. /
 
-# Packages can be installed from any enabled yum repo on the image.
-# RPMfusion repos are available by default in ublue main images
-# List of rpmfusion packages can be found here:
-# https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
+# 1. Configuration
+TASK_DIR="/ctx/tasks"
 
-# this installs a package from fedora repos
-dnf5 install -y tmux
+echo "--- Starting Task Runner ---"
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
+# 2. Validation
+if [ ! -d "$TASK_DIR" ]; then
+    echo "Error: Directory '$TASK_DIR' not found."
+    exit 1
+fi
 
-#### Example for enabling a System Unit File
+# 3. The Execution Loop
+# We use a 'for' loop which naturally sorts 01, 02, 03...
+for script in "$TASK_DIR"/[0-9]*.sh; do
 
-systemctl enable podman.socket
+    # Handle case where no files match the pattern
+    [ -e "$script" ] || { echo "No task scripts found."; exit 0; }
+
+    echo "[RUNNING] $(basename "$script")"
+
+    # Run the script.
+    # Because 'set -e' is active in THIS script, if the command below
+    # returns a non-zero exit code, the runner will stop immediately.
+    bash "$script"
+
+    echo "[SUCCESS] $(basename "$script") completed."
+    echo "----------------------------"
+done
+
+echo "All tasks finished successfully."
